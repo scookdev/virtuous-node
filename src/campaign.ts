@@ -1,6 +1,7 @@
 import { ICampaign } from './types/Campaign';
 import { Entity } from './entity';
 import { IQueryGroup, IQueryOptionGroup } from './types/Query';
+import { AxiosError } from 'axios';
 
 export class Campaign {
   public async getCampaignById(campaignId: number): Promise<ICampaign> {
@@ -11,7 +12,7 @@ export class Campaign {
       return await campaign.getEntityById<ICampaign>(path);
     } catch (error: any) {
       console.error('#getCampaignById error', `campaignId ${campaignId}, ${error.message}`);
-      throw error;
+      throw new AxiosError(error);
     }
   }
 
@@ -23,7 +24,7 @@ export class Campaign {
       return await campaign.getEntityById<ICampaign>(path);
     } catch (error: any) {
       console.error('#getCampaignSteps error', error.message);
-      throw error;
+      throw new AxiosError(error);
     }
   }
 
@@ -40,7 +41,7 @@ export class Campaign {
       return await campaign.queryEntities<ICampaign>(path, query);
     } catch (error: any) {
       console.error('#queryCampaigns error', `query ${JSON.stringify(query)}, ${error.message}`);
-      throw error;
+      throw new AxiosError(error);
     }
   }
 
@@ -54,7 +55,7 @@ export class Campaign {
       return data;
     } catch (error: any) {
       console.error('#getCampaignQueryOptions error', error.message);
-      throw error;
+      throw new AxiosError(error);
     }
   }
 }

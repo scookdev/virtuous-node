@@ -1,5 +1,6 @@
 import { ITag } from './types/Tag';
 import { Entity } from './entity';
+import { AxiosError } from 'axios';
 
 export class Tag {
   public async getAllTags(skip: number = 0, take: number = 25): Promise<ITag[]> {
@@ -9,7 +10,8 @@ export class Tag {
 
       return await tag.getEntities<ITag>(path);
     } catch (error: any) {
-      throw new Error(`Error getting tags: ${error}`);
+      console.error(`Error getting tags: ${error}`);
+      throw new AxiosError(error);
     }
   }
 }

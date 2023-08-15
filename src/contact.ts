@@ -2,6 +2,7 @@ import { IContact } from './types/Contact';
 import { IContactTag } from './types/ContactTag';
 import { IGift } from './types/Gift';
 import { Entity } from './entity';
+import { AxiosError } from 'axios';
 
 export class Contact {
   public async getContactById(contactId: number): Promise<IContact> {
@@ -12,7 +13,7 @@ export class Contact {
       return await contact.getEntityById<IContact>(path);
     } catch (error: any) {
       console.error(`#getContactById error, contactId ${contactId}`, error.message);
-      throw error;
+      throw new AxiosError(error);
     }
   }
 
@@ -28,7 +29,7 @@ export class Contact {
       return await contact.findEntities<IContact>(path, search);
     } catch (error: any) {
       console.error(`#fundContacts error, search text: ${search}`, error.message);
-      throw error;
+      throw new AxiosError(error);
     }
   }
 
@@ -37,7 +38,7 @@ export class Contact {
     sortBy: string = 'GiftDate',
     descending: boolean = true,
     skip: number = 0,
-    take: number = 25
+    take: number = 100
   ): Promise<IGift[]> {
     try {
       const contact = new Entity();
@@ -46,7 +47,7 @@ export class Contact {
       return await contact.getEntities<IGift>(path);
     } catch (error: any) {
       console.error(`#getGifts error, contactId ${contactId}: ${error.message}`);
-      throw error;
+      throw new AxiosError(error);
     }
   }
 
@@ -60,18 +61,18 @@ export class Contact {
       let filtered: IGift[] = [];
       if (year !== undefined) {
         filtered = gifts.filter((gift: IGift) => {
-          return this.getYear(gift.giftDate) === year;
+          return this._getYear(gift.giftDate) === year;
         });
       }
 
       const totalGiving = filtered.reduce((memo: number, gift: any) => {
-        return memo + this.toNumber(gift.amount);
+        return memo + this._toNumber(gift.amount);
       }, 0);
 
       return totalGiving;
     } catch (error: any) {
       console.error(`#getTotalGiving error, contactId ${contactId}, ${error}`);
-      throw error;
+      throw new AxiosError(error);
     }
   }
 
@@ -82,7 +83,8 @@ export class Contact {
 
       await entity.createEntity<IContact>(path, contact);
     } catch (error: any) {
-      throw new Error(`Error creating contact ${contact}: ${error}`);
+      console.error(`Error creating contact ${contact}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -93,7 +95,8 @@ export class Contact {
 
       await entity.updateEntity<IContact>(path, contact);
     } catch (error: any) {
-      throw new Error(`Error updating contact ${contactId}: ${error}`);
+      console.error(`Error updating contact ${contactId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -104,17 +107,18 @@ export class Contact {
 
       await entity.createEntity<IContactTag>(path, contactTag);
     } catch (error: any) {
-      throw new Error(`Error creating contactTag ${contactTag}: ${error}`);
+      console.error(`Error creating contactTag ${contactTag}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
   // Private Methods
 
-  private toNumber = (inString: string): number => {
+  private _toNumber = (inString: string): number => {
     return Number(inString.replace(/[^0-9\.]+/g, ''));
   };
 
-  private getYear = (inString: string): number => {
+  private _getYear = (inString: string): number => {
     return new Date(inString).getFullYear();
   };
 }

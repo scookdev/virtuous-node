@@ -1,5 +1,6 @@
 import { IGiftTransaction } from './types/GiftTransaction';
 import { Entity } from './entity';
+import { AxiosError } from 'axios';
 
 export class GiftTransaction {
   public async createGiftTransaction(giftTransaction: IGiftTransaction) {
@@ -9,7 +10,8 @@ export class GiftTransaction {
 
       await entity.createEntity<IGiftTransaction>(path, giftTransaction);
     } catch (error: any) {
-      throw new Error(`Error creating gift transaction ${giftTransaction}: ${error}`);
+      console.error(`Error creating gift transaction ${giftTransaction}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -20,7 +22,8 @@ export class GiftTransaction {
 
       await entity.createEntity<IGiftTransaction[]>(path, giftTransactions);
     } catch (error: any) {
-      throw new Error(`Error creating gift transaction batch ${giftTransactions}: ${error}`);
+      console.error(`Error creating gift transaction batch ${giftTransactions}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 }

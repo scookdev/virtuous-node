@@ -1,6 +1,7 @@
 import { Entity } from './entity';
 import { IGrant } from './types/Grant';
 import { IQueryGroup, IQueryOptionGroup } from './types/Query';
+import { AxiosError } from 'axios';
 
 export class Grant {
   public async getGrantById(grantId: number): Promise<IGrant> {
@@ -10,7 +11,8 @@ export class Grant {
 
       return await grant.getEntityById<IGrant>(path);
     } catch (error: any) {
-      throw new Error(`Error getting grant ${grantId}: ${error}`);
+      console.error(`Error getting grant ${grantId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -25,7 +27,8 @@ export class Grant {
 
       return await contact.getEntities<IGrant>(path);
     } catch (error: any) {
-      throw new Error(`Error getting grants for contact ${contactId}: ${error}`);
+      console.error(`Error getting grants for contact ${contactId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -42,7 +45,7 @@ export class Grant {
       return await grant.queryEntities<IGrant>(path, query);
     } catch (error: any) {
       console.error('#queryGrants error', `query ${JSON.stringify(query)}, ${error.message}`);
-      throw error;
+      throw new AxiosError(error);
     }
   }
 
@@ -53,7 +56,8 @@ export class Grant {
 
       return await entity.createEntity<IGrant>(path, grant);
     } catch (error: any) {
-      throw new Error(`Error creating grant ${grant}: ${error}`);
+      console.error(`Error creating grant ${grant}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -63,8 +67,9 @@ export class Grant {
       const entity = new Entity();
 
       return await entity.updateEntity<IGrant>(path, grant);
-    } catch (error) {
-      throw new Error(`Error updating grant ${grantId}: ${error}`);
+    } catch (error: any) {
+      console.error(`Error updating grant ${grantId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -77,8 +82,8 @@ export class Grant {
 
       return data;
     } catch (error: any) {
-      console.error('#getGrantQueryOptions error', error.message);
-      throw error;
+      console.error(`Error getting grant query options: ${error}`);
+      throw new AxiosError(error);
     }
   }
 }

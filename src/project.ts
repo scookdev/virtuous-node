@@ -1,5 +1,6 @@
 import { Entity } from './entity';
 import { IProject } from './types/Project';
+import { AxiosError } from 'axios';
 
 export class Project {
   public async getProjectById(projectId: number): Promise<IProject> {
@@ -9,7 +10,8 @@ export class Project {
 
       return await project.getEntityById<IProject>(path);
     } catch (error: any) {
-      throw new Error(`Error getting project ${projectId}: ${error}`);
+      console.error(`Error getting project ${projectId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -20,7 +22,8 @@ export class Project {
 
       return await project.getEntity<IProject>(path);
     } catch (error: any) {
-      throw new Error(`Error getting project by code ${code}: ${error}`);
+      console.error(`Error getting project by code ${code}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -35,7 +38,8 @@ export class Project {
 
       return await project.findEntities<IProject>(path, search);
     } catch (error: any) {
-      throw new Error(`Error finding projects with search text '${search}': ${error}`);
+      console.error(`Error finding projects, with search text 'search': ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -46,7 +50,8 @@ export class Project {
 
       await project.createEntity<IProject>(path, entity);
     } catch (error: any) {
-      throw new Error(`Error creating project ${entity}: ${error}`);
+      console.error(`Error creating project ${entity}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -57,7 +62,8 @@ export class Project {
 
       await project.updateEntity<IProject>(path, entity);
     } catch (error: any) {
-      throw new Error(`Error updating project ${projectId}: ${error}`);
+      console.error(`Error updating project ${projectId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -72,7 +78,8 @@ export class Project {
 
       await project.updateEntity(path, payload);
     } catch (error: any) {
-      throw new Error(`Error updating balance of project ${projectId}: ${error}`);
+      console.error(`Error updating balance of project ${projectId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 }

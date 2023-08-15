@@ -1,5 +1,6 @@
 import { IVolunteerOrganizer } from './types/VolunteerOrganizer';
 import { Entity } from './entity';
+import { AxiosError } from 'axios';
 
 export class VolunteerOrganizer {
   public async getVolunteerOrganizers(
@@ -13,9 +14,10 @@ export class VolunteerOrganizer {
 
       return data;
     } catch (error: any) {
-      throw new Error(
+      console.error(
         `Error getting volunteer opportunity ${volunteerOpportunityId}: ${error?.response?.data}`
       );
+      throw new AxiosError(error);
     }
   }
 
@@ -29,7 +31,8 @@ export class VolunteerOrganizer {
 
       return await volunteerOrganizer.getEntities<IVolunteerOrganizer>(path);
     } catch (error: any) {
-      throw new Error(`Error getting volunteer organizer: ${error?.response?.data}`);
+      console.error(`Error getting volunteer organizer: ${error?.response?.data}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -40,9 +43,8 @@ export class VolunteerOrganizer {
 
       return await entity.createEntity<IVolunteerOrganizer>(path, volunteerOrganizer);
     } catch (error: any) {
-      console.log(
-        `Error creating volunteer organizer ${volunteerOrganizer}: ${error}`
-      );
+      console.error(`Error creating volunteer organizer ${volunteerOrganizer}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -56,7 +58,10 @@ export class VolunteerOrganizer {
 
       return await entity.updateEntity<IVolunteerOrganizer>(path, volunteerOrganizer);
     } catch (error: any) {
-      console.log(`Error updating volunteer opportunity ${volunteerOrganizerId}: ${error?.response?.data}`);
+      console.error(
+        `Error updating volunteer opportunity ${volunteerOrganizerId}: ${error?.response?.data}`
+      );
+      throw new AxiosError(error);
     }
   }
 }

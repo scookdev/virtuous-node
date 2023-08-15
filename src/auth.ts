@@ -13,6 +13,26 @@ export class Auth {
     }
   }
 
+  public async getOrganizations(): Promise<any> {
+    const { data } = await axios.get(`${process.env.VIRTUOUS_API_BASE_URI}/api/Organization`, {
+      headers: {
+        Authorization: `Bearer ${await this.getToken()}`
+      }
+    });
+
+    return data;
+  }
+
+  public async getPermissions(): Promise<any> {
+    const { data } = await axios.get(`${process.env.VIRTUOUS_API_BASE_URI}/api/Permission`, {
+      headers: {
+        Authorization: `Bearer ${await this.getToken()}`
+      }
+    });
+
+    return data;
+  }
+
   private async _signIn(): Promise<IAuthentication> {
     const req = this._authRequest();
     const params = new URLSearchParams();

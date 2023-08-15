@@ -1,6 +1,7 @@
 import { IGift } from './types/Gift';
 import { Entity } from './entity';
 import { IQueryOptionGroup } from './types/Query';
+import { AxiosError } from 'axios';
 
 export class Gift {
   public async getGiftById(giftId: number): Promise<IGift> {
@@ -10,7 +11,8 @@ export class Gift {
 
       return await gift.getEntityById<IGift>(path);
     } catch (error: any) {
-      throw new Error(`Error getting gift ${giftId}: ${error}`);
+      console.error(`Error getting gift ${giftId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -28,19 +30,20 @@ export class Gift {
 
       return await gift.queryEntities<IGift>(path, query);
     } catch (error: any) {
-      throw new Error(`Error finding gifts with query '${JSON.stringify(query)}': ${error}`);
+      console.error(`Error finding gifts with query '${JSON.stringify(query)}': ${error}`);
+      throw new AxiosError(error);
     }
   }
 
-  public async getGetQueryOptions(): Promise<IQueryOptionGroup[]> {
+  public async getGiftQueryOptions(): Promise<IQueryOptionGroup[]> {
     try {
       const gift = new Entity();
       const path = 'api/Gift/QueryOptions';
 
       return await gift.getEntities<IQueryOptionGroup>(path);
     } catch (error: any) {
-      console.error(error);
-      throw new Error(`Error getting gift query options': ${error}`);
+      console.error('Error getting gift query options', error);
+      throw new AxiosError(error);
     }
   }
 }
