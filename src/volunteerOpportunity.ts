@@ -1,5 +1,6 @@
 import { IVolunteerOpportunity } from './types/VolunteerOpportunity';
 import { Entity } from './entity';
+import { AxiosError } from 'axios';
 
 export class VolunteerOpportunity {
   public async getVolunteerOpportunity(
@@ -10,8 +11,9 @@ export class VolunteerOpportunity {
       const path = `api/VolunteerOpportunity/${volunteerOpportunityId}/${volunteerOpportunityId}`;
 
       return await volunteerOpportunity.getEntity<IVolunteerOpportunity>(path);
-    } catch (error) {
-      throw new Error(`Error getting volunteer opportunity ${volunteerOpportunityId}: ${error}`);
+    } catch (error: any) {
+      console.error(`Error getting volunteer opportunity ${volunteerOpportunityId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -29,8 +31,9 @@ export class VolunteerOpportunity {
       }
 
       return await volunteerOpportunity.getEntities<IVolunteerOpportunity>(path);
-    } catch (error) {
-      throw new Error(`Error getting volunteer opportunities: ${error}`);
+    } catch (error: any) {
+      console.error(`Error getting volunteer opportunities: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -40,8 +43,9 @@ export class VolunteerOpportunity {
       const path = 'api/VolunteerOpportunity';
 
       return await entity.createEntity<IVolunteerOpportunity>(path, volunteerOpportunity);
-    } catch (error) {
-      console.log(`Error creating volunteer opportunity ${volunteerOpportunity}: ${error}`);
+    } catch (error: any) {
+      console.error(`Error creating volunteer opportunity ${volunteerOpportunity}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -54,8 +58,9 @@ export class VolunteerOpportunity {
       const path = `api/VolunteerOpportunity/${volunteerOpportunityId}`;
 
       return await entity.updateEntity<IVolunteerOpportunity>(path, volunteerOpportunity);
-    } catch (error) {
-      console.log(`Error updating volunteer opportunity ${volunteerOpportunityId}: ${error}`);
+    } catch (error: any) {
+      console.error(`Error updating volunteer opportunity ${volunteerOpportunityId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 }

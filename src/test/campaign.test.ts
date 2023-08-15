@@ -29,14 +29,6 @@ describe('#getCampaignSteps', () => {
   });
 });
 
-describe('#getCampaignQueryOptions', () => {
-  it('returns campaign query options', async () => {
-    const campaign = new Campaign();
-    const data = await campaign.getCampaignQueryOptions();
-    console.log('getCampaignQueryOptions', data);
-  });
-});
-
 describe('queryCampaigns', () => {
   it('returns campaigns', async () => {
     const campaign = new Campaign();
@@ -44,5 +36,13 @@ describe('queryCampaigns', () => {
       groups: [{ conditions: [{ parameter: 'Campaign Id', operator: 'Is', value: 3776 }] }]
     });
     console.log('queryCampaigns', data);
+  });
+});
+
+describe('#getCampaignQueryOptions', () => {
+  it('returns campaign query options', async () => {
+    const campaign = new Campaign();
+    const data = await campaign.getCampaignQueryOptions();
+    console.log('getCampaignQueryOptions', data);
   });
 });

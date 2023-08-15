@@ -1,5 +1,6 @@
 import { IVolunteerAttendance } from './types/VolunteerAttendance';
 import { Entity } from './entity';
+import { AxiosError } from 'axios';
 
 export class VolunteerAttendance {
   public async getVolunteerAttendance(
@@ -11,8 +12,9 @@ export class VolunteerAttendance {
       const path = `api/VolunteerOpportunity/${volunteerOpportunityId}/VolunteerAttendance/${volunteerAttendanceId}/${volunteerAttendanceId}`;
 
       return await volunteerAttendance.getEntity<IVolunteerAttendance>(path);
-    } catch (error) {
-      throw new Error(`Error getting volunteer attendance ${volunteerAttendanceId}: ${error}`);
+    } catch (error: any) {
+      console.error(`Error getting volunteer attendance ${volunteerAttendanceId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -25,8 +27,9 @@ export class VolunteerAttendance {
       const path = `api/VolunteerOpportunity/${volunteerOpportunityId}/Volunteers/${volunteerId}/Attendance`;
 
       return await volunteerAttendance.getEntities<IVolunteerAttendance>(path);
-    } catch (error) {
-      throw new Error(`Error getting volunteer attendance for ${volunteerId}: ${error}`);
+    } catch (error: any) {
+      console.error(`Error getting attendance for volunteer ${volunteerId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -36,9 +39,9 @@ export class VolunteerAttendance {
       const path = `api/VolunteerOpportunity/${volunteerAttendance.volunteerOpportunityId}/Volunteers/${volunteerAttendance.volunteerId}/Attendance`;
 
       return await entity.createEntity<Partial<IVolunteerAttendance>>(path, volunteerAttendance);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
       console.log(`Error creating volunteer attendance ${volunteerAttendance}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -48,8 +51,9 @@ export class VolunteerAttendance {
       const path = `api/VolunteerOpportunity/${volunteerAttendance.volunteerOpportunityId}/Attendance/${volunteerAttendance.id}`;
 
       return await entity.updateEntity<Partial<IVolunteerAttendance>>(path, volunteerAttendance);
-    } catch (error) {
+    } catch (error: any) {
       console.log(`Error updating volunteer attendance ${volunteerAttendance.id}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 }

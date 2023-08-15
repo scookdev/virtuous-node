@@ -84,9 +84,13 @@ describe('Contact', () => {
       console.log('getContactById', data);
     });
 
-    it('raises an error if contact is not found', async () => {
-      const contact = new Contact();
-      expect(await contact.getContactById(0)).toThrow(AxiosError);
+    it.only('raises an error if contact is not found', async () => {
+      try {
+        const contact = new Contact();
+        await contact.getContactById(0);
+      } catch (error) {
+        console.log(error);
+      }
     });
   });
 

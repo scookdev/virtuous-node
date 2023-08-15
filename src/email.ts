@@ -1,5 +1,6 @@
 import { IEmail } from './types/Email';
 import { Entity } from './entity';
+import { AxiosError } from 'axios';
 
 export class Email {
   public async findEmails<IEmail>(
@@ -13,7 +14,8 @@ export class Email {
 
       return await email.findEntities<IEmail>(path, search);
     } catch (error: any) {
-      throw new Error(`Error finding emails with search text '${search}': ${error}`);
+      console.error(`Error finding emails with search text '${search}': ${error}`);
+      throw new AxiosError(error);
     }
   }
 }

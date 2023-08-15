@@ -1,5 +1,6 @@
 import { Entity } from './entity';
 import { IEmailList } from './types/EmailList';
+import { AxiosError } from 'axios';
 
 export class EmailList {
   public async getEmailListById(emailListId: number): Promise<IEmailList> {
@@ -9,7 +10,8 @@ export class EmailList {
 
       return emailList.getEntityById<IEmailList>(path);
     } catch (error: any) {
-      throw new Error(`Error getting email list ${emailListId}: ${error}`);
+      console.error(`Error getting email list ${emailListId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -24,7 +26,8 @@ export class EmailList {
 
       return await emailList.findEntities<IEmailList>(path, search);
     } catch (error: any) {
-      throw new Error(`Error finding email lists with search text '${search}': ${error}`);
+      console.error(`Error finding email lists with search text '${search}': ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -35,7 +38,8 @@ export class EmailList {
 
       await entity.createEntity<IEmailList>(path, emailList);
     } catch (error: any) {
-      throw new Error(`Error creating email list ${emailList}: ${error}`);
+      console.error(`Error creating email list ${emailList}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -46,7 +50,8 @@ export class EmailList {
 
       await entity.updateEntity<IEmailList>(path, emailList);
     } catch (error: any) {
-      throw new Error(`Error updating email list ${emailListId}: ${error}`);
+      console.error(`Error updating email list ${emailListId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 

@@ -1,5 +1,6 @@
 import { IEvent, IEventResponse } from './types/Event';
 import { Entity } from './entity';
+import { AxiosError } from 'axios';
 
 export class Event {
   public async getEventById(eventId: number): Promise<IEventResponse> {
@@ -9,7 +10,8 @@ export class Event {
 
       return await event.getEntityById<IEventResponse>(path);
     } catch (error: any) {
-      throw new Error(`Error getting event ${eventId}: ${error}`);
+      console.error(`Error getting event ${eventId}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -20,7 +22,8 @@ export class Event {
 
       return await event.getEntities<IEventResponse>(path);
     } catch (error: any) {
-      throw new Error(`Error getting events: ${error}`);
+      console.error(`Error getting events: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -38,7 +41,7 @@ export class Event {
       return await event.getEntities<IEvent>(path);
     } catch (error: any) {
       console.error(`Error getting gifts for event ${eventId}: ${error}`);
-      throw error;
+      throw new AxiosError(error);
     }
   }
 
@@ -51,7 +54,7 @@ export class Event {
       return true;
     } catch (error: any) {
       console.error(`Error creating event ${event}: ${error.message}`);
-      throw error;
+      throw new AxiosError(error);
     }
   }
 
@@ -64,7 +67,7 @@ export class Event {
       return true;
     } catch (error: any) {
       console.error(`Error updating event ${eventId}: ${error}`);
-      throw error;
+      throw new AxiosError(error);
     }
   }
 
@@ -77,7 +80,7 @@ export class Event {
       return true;
     } catch (error: any) {
       console.error(`Error deleting event ${eventId}: ${error}`);
-      throw error;
+      throw new AxiosError(error);
     }
   }
 }

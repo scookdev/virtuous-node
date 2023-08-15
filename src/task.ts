@@ -1,5 +1,6 @@
 import { Entity } from './entity';
 import { ITask } from './types/Task';
+import { AxiosError } from 'axios';
 
 export class Task {
   public async getTaskTypes() {
@@ -9,7 +10,8 @@ export class Task {
 
       return await task.getEntities<ITask>(path);
     } catch (error: any) {
-      throw new Error(`Error getting task types: ${error}`);
+      console.error(`Error getting task types: ${error}`);
+      throw new AxiosError(error);
     }
   }
 
@@ -20,7 +22,8 @@ export class Task {
 
       return await entity.createEntity<ITask>(path, task);
     } catch (error: any) {
-      throw new Error(`Error getting task types: ${error}`);
+      console.error(`Error creating task ${task}: ${error}`);
+      throw new AxiosError(error);
     }
   }
 }
