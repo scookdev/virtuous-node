@@ -1,5 +1,5 @@
 {
-  "name": "@stevorevo/virtuous",
+  "name": "@stevorevo/virtuous-node",
   "version": "1.0.0",
   "description": "Package for integrating Virtuous DRM in your application",
   "main": "dist/index.js",
