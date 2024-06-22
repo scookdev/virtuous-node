@@ -87,6 +87,7 @@ export class Entity {
   private async _init() {
     try {
       this._token = await new Auth().getToken();
+      console.log('Token', this._token);
     } catch (error) {
       throw error;
     }
