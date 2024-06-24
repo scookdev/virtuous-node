@@ -55,10 +55,20 @@ export class Contact {
     try {
       // TODO: loop to make sure all gifts are retrieved
       const entity = new Entity();
-      const path = `api/Gift/ByContact/${contactId}?take=100`;
 
-      let gifts = await entity.getEntities<IGift>(path);
-      let filtered: IGift[] = [];
+      // Create an array of Promises
+      const promises: Promise<IGift[]>[] = [];
+      for (let skip = 0; skip < 1000; skip += 100) {
+        const path = `api/Gift/ByContact/${contactId}?skip=${skip}&take=100&sortBy=GiftDate&descending=true`;
+        promises.push(entity.getEntities<IGift>(path));
+      }
+
+      // Use Promise.all to run all requests concurrently
+      const results = await Promise.all(promises);
+
+      // Flatten the array of arrays
+      const gifts = results.flat();
+      let filtered: IGift[] = gifts;
       if (year !== undefined) {
         filtered = gifts.filter((gift: IGift) => {
           return this._getYear(gift.giftDate) === year;
