@@ -32,7 +32,7 @@ export interface IEventAttendee {
 }
 export interface IGiftTransaction {
   transactionSource?: string;
-  transactionId: string;
+  transactionId?: string;
   contact: {
     referenceId?: string;
     id?: number;

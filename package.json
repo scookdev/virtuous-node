@@ -1,6 +1,6 @@
 {
   "name": "@stevorevo/virtuous-node",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Package for integrating Virtuous DRM in your application",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -47,6 +47,6 @@
     "axios": "^1.6.0",
     "json5": "2.2.2",
     "lodash": "^4.17.21",
-    "semver": "^7.6.0"
+    "semver": "^7.6.3"
   }
 }
